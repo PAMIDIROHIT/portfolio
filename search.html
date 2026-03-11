@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">Search - PAMIDI ROHIT</title>
+  <meta name="description" content="Search Pamidi Rohit's portfolio — projects, skills, education, achievements, and contact info." />
+  <meta name="robots" content="index, follow" />
+  <link rel="icon" type="image/jpeg" href="profile.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Reset ──────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-family: arial, sans-serif; background: #fff; color: #202124; }
+    a { text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ─── Top Search Bar Row ─────────────────────────────────────────── */
+    #topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #fff;
+      border-bottom: 1px solid #ebebeb;
+    }
+
+    #topbar-inner {
+      display: flex;
+      align-items: center;
+      padding: 10px 24px 8px;
+      gap: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Mini logo in topbar */
+    #topbar-logo {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: -1px;
+      white-space: nowrap;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    #topbar-logo .l1 { color: #4285F4; }
+    #topbar-logo .l2 { color: #EA4335; }
+    #topbar-logo .l3 { color: #FBBC05; }
+    #topbar-logo .l4 { color: #4285F4; }
+    #topbar-logo .l5 { color: #34A853; }
+    #topbar-logo .l6 { color: #EA4335; }
+    #topbar-logo .logo-sp { display: inline-block; width: 6px; }
+    #topbar-logo .l7 { color: #4285F4; }
+    #topbar-logo .l8 { color: #EA4335; }
+    #topbar-logo .l9 { color: #FBBC05; }
+    #topbar-logo .l10 { color: #4285F4; }
+    #topbar-logo .l11 { color: #34A853; }
+
+    /* Search bar (compact version) */
+    #topbar-search-wrap {
+      flex: 1;
+      max-width: 692px;
+      position: relative;
+    }
+    #topbar-search-inner {
+      display: flex;
+      align-items: center;
+      height: 46px;
+      border-radius: 24px;
+      background: #fff;
+      padding: 2px;
+      transition: box-shadow .3s;
+      position: relative;
+    }
+    #topbar-search-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      padding: 2px;
+      background: conic-gradient(from var(--gradient-angle, 0deg), #4285F4, #EA4335, #FBBC05, #34A853, #4285F4);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity .35s;
+      animation: borderSpin 2.5s linear infinite;
+      pointer-events: none;
+    }
+    #topbar-search-inner:hover::before, #topbar-search-inner:focus-within::before {
+      opacity: 1;
+    }
+    #topbar-search-inner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      border: 1px solid #dfe1e5;
+      pointer-events: none;
+      transition: opacity .35s;
+    }
+    #topbar-search-inner:hover::after, #topbar-search-inner:focus-within::after {
+      opacity: 0;
+    }
+    #topbar-search-inner:hover, #topbar-search-inner:focus-within {
+      box-shadow: 0 2px 8px rgba(32,33,36,.2);
+    }
+    @property --gradient-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+    @keyframes borderSpin {
+      to { --gradient-angle: 360deg; }
+    }
+    #topbar-search-icon { padding: 0 8px 0 14px; flex-shrink: 0; }
+    #topbar-search-icon svg { width: 20px; height: 20px; fill: #9aa0a6; display: block; }
+    #topbar-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: arial, sans-serif;
+      font-size: 16px;
+      color: #202124;
+      background: transparent;
+      height: 100%;
+    }
+    #topbar-search-btn {
+      height: 100%;
+      padding: 0 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      border-left: 1px solid #dfe1e5;
+      border-radius: 0 24px 24px 0;
+      transition: background .15s;
+    }
+    #topbar-search-btn:hover { background: #f8f9fa; }
+    #topbar-search-btn svg { width: 20px; height: 20px; fill: #4285F4; }
+
+    /* Right side of topbar */
+    #topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+    .tbr-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .tbr-icon:hover { background: #f1f3f4; }
+    .tbr-icon svg { width: 20px; height: 20px; }
+    #topbar-avatar {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    #topbar-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ─── Tab Navigation ─────────────────────────────────────────────── */
+    #tab-nav {
+      background: #fff;
+      border-bottom: 1px solid #ebebeb;
+      padding: 0 24px 0 170px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    #tab-nav::-webkit-scrollbar { display: none; }
+
+    .tab-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 18px;
+      font-size: 13px;
+      color: #5f6368;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      transition: color .15s;
+    }
+    .tab-item:hover { color: #202124; }
+    .tab-item.active { color: #1a73e8; border-bottom-color: #1a73e8; }
+    .tab-item svg { width: 16px; height: 16px; }
+
+    /* ─── Content Layout ─────────────────────────────────────────────── */
+    #content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      padding: 20px 24px;
+      gap: 52px;
+    }
+
+    /* Left: Results column */
+    #results-column {
+      flex: 1;
+      max-width: 652px;
+    }
+
+    #results-meta {
+      font-size: 13px;
+      color: #70757a;
+      margin-bottom: 20px;
+    }
+
+    /* Search result card */
+    .result-card {
+      margin-bottom: 28px;
+      max-width: 652px;
+    }
+
+    .result-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .result-favicon {
+      width: 18px; height: 18px;
+      border-radius: 4px;
+      background: #f1f3f4;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px;
+      flex-shrink: 0;
+    }
+    .result-site { font-size: 14px; color: #202124; }
+    .result-url { font-size: 12px; color: #4d5156; }
+
+    .result-title {
+      font-size: 20px;
+      line-height: 1.3;
+      color: #1a0dab;
+      margin-bottom: 4px;
+      cursor: pointer;
+      display: inline;
+    }
+    .result-title:hover { text-decoration: underline; }
+    a:visited .result-title { color: #681da8; }
+
+    .result-snippet {
+      font-size: 14px;
+      color: #4d5156;
+      line-height: 1.58;
+    }
+    .result-snippet strong { color: #202124; font-weight: 700; }
+
+    .result-date {
+      font-size: 14px;
+      color: #70757a;
+    }
+
+    /* Category label */
+    .result-label {
+      display: inline-block;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .label-project  { background: #e8f0fe; color: #1967d2; }
+    .label-skills   { background: #fce8e6; color: #c5221f; }
+    .label-education { background: #e6f4ea; color: #137333; }
+    .label-achievement { background: #fef7e0; color: #b06000; }
+    .label-contact  { background: #f3e8fd; color: #6200ea; }
+    .label-personal { background: #e8f0fe; color: #1967d2; }
+    .label-research { background: #e6f4ea; color: #137333; }
+
+    /* Tech tag chips in results */
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tech-tag {
+      font-size: 12px;
+      padding: 2px 10px;
+      background: #f1f3f4;
+      border-radius: 12px;
+      color: #3c4043;
+    }
+
+    /* ─── Knowledge Panel (Right sidebar) ───────────────────────────── */
+    #knowledge-panel {
+      width: 300px;
+      flex-shrink: 0;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      padding: 20px;
+      height: fit-content;
+      position: sticky;
+      top: 120px;
+    }
+
+    #kp-profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #ebebeb;
+      margin-bottom: 16px;
+    }
+    #kp-avatar {
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 12px;
+      border: 3px solid #dadce0;
+    }
+    #kp-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    #kp-name { font-size: 22px; font-weight: 400; color: #202124; margin-bottom: 4px; }
+    #kp-title { font-size: 13px; color: #70757a; line-height: 1.4; }
+
+    .kp-section { margin-bottom: 16px; }
+    .kp-label { font-size: 11px; color: #70757a; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 6px; font-weight: 500; }
+    .kp-value { font-size: 14px; color: #202124; }
+    .kp-value a { color: #1a0dab; }
+    .kp-value a:hover { text-decoration: underline; }
+
+    .kp-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid #ebebeb;
+    }
+    .kp-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border: 1px solid #dadce0;
+      border-radius: 20px;
+      font-size: 13px;
+      color: #3c4043;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .15s, box-shadow .15s;
+    }
+    .kp-btn:hover { background: #f8f9fa; box-shadow: 0 1px 3px rgba(0,0,0,.15); text-decoration: none; }
+    .kp-btn svg { width: 16px; height: 16px; }
+
+    /* Skills bar in knowledge panel */
+    .skill-bar-wrap { margin-bottom: 6px; }
+    .skill-bar-label { font-size: 12px; color: #3c4043; margin-bottom: 2px; display: flex; justify-content: space-between; }
+    .skill-bar { height: 4px; background: #e8eaed; border-radius: 2px; overflow: hidden; }
+    .skill-bar-fill { height: 100%; border-radius: 2px; background: #1a73e8; }
+
+    /* No results state */
+    #no-results {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+      color: #70757a;
+    }
+    #no-results h2 { font-size: 20px; font-weight: 400; margin-bottom: 8px; }
+
+    /* ─── Pagination ──────────────────────────────────────────────── */
+    #pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 20px 0 40px;
+      max-width: 652px;
+    }
+    #pagination-logo {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      margin-bottom: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: -1px;
+      user-select: none;
+    }
+    #pagination-logo .l1 { color: #4285F4; }
+    #pagination-logo .l2 { color: #EA4335; }
+    #pagination-logo .l3 { color: #FBBC05; }
+    #pagination-logo .l4 { color: #4285F4; }
+    #pagination-logo .l5 { color: #34A853; }
+    #pagination-logo .l6 { color: #EA4335; }
+    #pagination-logo .lsp { display: inline-block; width: 4px; }
+    #pagination-logo .l7 { color: #4285F4; }
+    #pagination-logo .l8 { color: #EA4335; }
+    #pagination-logo .l9 { color: #FBBC05; }
+    #pagination-logo .l10 { color: #4285F4; }
+    #pagination-logo .l11 { color: #34A853; }
+    .page-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-family: arial, sans-serif;
+      font-size: 14px;
+      color: #1a0dab;
+      transition: background .15s;
+    }
+    .page-btn:hover { background: #f1f3f4; }
+    .page-btn.active {
+      color: #202124;
+      font-weight: 700;
+      cursor: default;
+    }
+    .page-btn.active:hover { background: none; }
+    .page-btn.nav-arrow { color: #1a73e8; font-size: 16px; }
+    .page-btn.nav-arrow:disabled { color: #dadce0; cursor: default; }
+    .page-btn.nav-arrow:disabled:hover { background: none; }
+
+    /* ─── Responsive ─────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      #knowledge-panel { display: none; }
+      #tab-nav { padding-left: 24px; }
+      #content { gap: 0; }
+    }
+    @media (max-width: 600px) {
+      #topbar-logo { font-size: 18px; }
+      #topbar-inner { padding: 8px 12px; gap: 10px; }
+      #topbar-search-wrap { max-width: none; }
+      #content { padding: 12px; }
+      #tab-nav { padding-left: 12px; gap: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .result-item { padding: 12px 0; }
+      .result-title { font-size: 17px; }
+      .result-snippet { font-size: 13px; }
+      #topbar-avatar { width: 28px; height: 28px; }
+      #pagination { flex-wrap: wrap; justify-content: center; }
+    }
+    @media (max-width: 400px) {
+      #topbar-logo { font-size: 15px; }
+      #topbar-inner { padding: 6px 8px; gap: 6px; }
+      #topbar-search-inner { height: 38px; }
+      #topbar-input { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════  TOPBAR  ════════════════════════════════════ -->
+<div id="topbar">
+  <div id="topbar-inner">
+    <!-- Mini Logo -->
+    <a href="index.html" id="topbar-logo">
+      <span class="l1">P</span><span class="l2">A</span><span class="l3">M</span><span class="l4">I</span><span class="l5">D</span><span class="l6">I</span><span class="logo-sp"></span><span class="l7">R</span><span class="l8">O</span><span class="l9">H</span><span class="l10">I</span><span class="l11">T</span>
+    </a>
+
+    <!-- Search bar -->
+    <div id="topbar-search-wrap">
+      <div id="topbar-search-inner">
+        <span id="topbar-search-icon">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        </span>
+        <input id="topbar-input" type="text" autocomplete="off" spellcheck="false" />
+        <button id="topbar-search-btn" onclick="doTopbarSearch()">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Right icons -->
+    <div id="topbar-right">
+      <a href="gemini.html" class="tbr-icon" title="Ask Rohit AI">
+        <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
+          <defs><linearGradient id="gem-nav" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient></defs>
+          <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5Z" fill="url(#gem-nav)"/>
+          <path d="M19 14L19.7 16.3L22 17L19.7 17.7L19 20L18.3 17.7L16 17L18.3 16.3Z" fill="url(#gem-nav)" opacity=".6"/>
+        </svg>
+      </a>
+      <a href="https://github.com/PAMIDIROHIT" target="_blank" class="tbr-icon" title="GitHub">
+        <svg viewBox="0 0 24 24" fill="#24292e"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      <a href="index.html" id="topbar-avatar">
+        <img src="profile.jpg" alt="Rohit" />
+      </a>
+    </div>
+  </div>
+
+  <!-- Tab Navigation -->
+  <nav id="tab-nav">
+    <div class="tab-item active" data-cat="all" onclick="filterCategory('all', this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      All
+    </div>
+    <div class="tab-item" data-cat="project" onclick="filterCategory('project', this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+      Projects
+    </div>
+    <div class="tab-item" data-cat="skills" onclick="filterCategory('skills', this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      Skills
+    </div>
+    <div class="tab-item" data-cat="education" onclick="filterCategory('education', this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l4 2.18V15c0 3 4 6 7 6s7-3 7-6v-3.82L21 9 12 3zm6 10.82V15c0 1.73-2.73 4-6 4s-6-2.27-6-4v-1.18L12 16l6-2.18zM3.53 9 12 5.04 20.47 9 12 12.96 3.53 9z"/></svg>
+      Education
+    </div>
+    <div class="tab-item" data-cat="achievement" onclick="filterCategory('achievement', this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+      Achievements
+    </div>
+    <div class="tab-item" data-cat="contact" onclick="filterCategory('contact', this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      Contact
+    </div>
+  </nav>
+</div>
+
+<!-- ═══════════════════════  CONTENT  ═══════════════════════════════════ -->
+<div id="content">
+
+  <!-- Left: Results -->
+  <div id="results-column">
+    <p id="results-meta"></p>
+    <div id="results-list"></div>
+    <div id="no-results">
+      <h2>No results found</h2>
+      <p>Try searching for: projects, skills, education, contact, achievements</p>
+    </div>
+    <div id="pagination-container" style="display:none;">
+      <div id="pagination-logo">
+        <span class="l1">P</span><span class="l2">a</span><span class="l3">m</span><span class="l4">i</span><span class="l5">d</span><span class="l6">i</span><span class="lsp"></span><span class="l7">R</span><span class="l8">o</span><span class="l9">h</span><span class="l10">i</span><span class="l11">t</span>
+      </div>
+      <div id="pagination"></div>
+    </div>
+  </div>
+
+  <!-- Right: Knowledge Panel -->
+  <aside id="knowledge-panel">
+    <div id="kp-profile">
+      <div id="kp-avatar">
+        <img src="profile.jpg" alt="Pamidi Rohit" />
+      </div>
+      <div id="kp-name">Pamidi Rohit</div>
+      <div id="kp-title">B.Tech AI & Data Science<br>IIIT Sri City — CGPA: 8.23</div>
+    </div>
+
+    <div class="kp-section">
+      <div class="kp-label">Education</div>
+      <div class="kp-value">IIIT Sri City, 2023–2027</div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-label">Specialization</div>
+      <div class="kp-value">AI & Data Science</div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-label">LeetCode</div>
+      <div class="kp-value"><a href="https://leetcode.com/u/rohithtnsp/" target="_blank">600+ Problems Solved</a></div>
+    </div>
+    <div class="kp-section">
+      <div class="kp-label">Top Skills</div>
+      <div>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-label"><span>Full-Stack Dev</span><span>95%</span></div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:95%"></div></div>
+        </div>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-label"><span>ML / AI</span><span>90%</span></div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div>
+        </div>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-label"><span>Python</span><span>92%</span></div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:92%"></div></div>
+        </div>
+        <div class="skill-bar-wrap">
+          <div class="skill-bar-label"><span>React / Next.js</span><span>88%</span></div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:88%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kp-actions">
+      <a href="https://www.linkedin.com/in/rohit-pamidi-4147771ba/" target="_blank" class="kp-btn">
+        <svg viewBox="0 0 24 24" fill="#0077B5"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/PAMIDIROHIT" target="_blank" class="kp-btn">
+        <svg viewBox="0 0 24 24" fill="#24292e"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        GitHub
+      </a>
+      <a href="mailto:rohithtnsp@gmail.com" class="kp-btn">
+        <svg viewBox="0 0 24 24" fill="#EA4335"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        Email
+      </a>
+      <a href="gemini.html" class="kp-btn">
+        <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
+          <defs><linearGradient id="gem-kp" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient></defs>
+          <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5Z" fill="url(#gem-kp)"/>
+        </svg>
+        Ask AI
+      </a>
+    </div>
+  </aside>
+
+</div>
+
+<!-- ═══════════════════  SCRIPTS  ═══════════════════════════════════════ -->
+<script src="js/knowledge-base.js"></script>
+<script src="js/search-engine.js"></script>
+<script>
+  let currentQuery = '';
+  let currentCategory = 'all';
+  let currentPage = 1;
+  const RESULTS_PER_PAGE = 10;
+  let allResults = [];
+
+  const CATEGORY_LABELS = {
+    project: { text: 'Project', css: 'label-project' },
+    skills: { text: 'Skills', css: 'label-skills' },
+    education: { text: 'Education', css: 'label-education' },
+    achievement: { text: 'Achievement', css: 'label-achievement' },
+    contact: { text: 'Contact', css: 'label-contact' },
+    personal: { text: 'About', css: 'label-personal' },
+    research: { text: 'Research', css: 'label-research' }
+  };
+
+  const TECH_KEYWORDS = [
+    'node.js','react.js','react','next.js','mongodb','redis','docker','python','flask',
+    'typescript','javascript','aws','postgresql','nestjs','graphql','tailwind',
+    'langchain','machine learning','nlp','tfidf','c++','java'
+  ];
+
+  function extractTechTags(content) {
+    const lower = content.toLowerCase();
+    return TECH_KEYWORDS.filter(t => lower.includes(t)).slice(0, 6);
+  }
+
+  function init() {
+    const params = new URLSearchParams(window.location.search);
+    currentQuery = params.get('q') || '';
+
+    document.getElementById('topbar-input').value = currentQuery;
+    document.title = `${currentQuery} — PAMIDI ROHIT`;
+
+    if (!currentQuery) {
+      currentQuery = 'projects';
+    }
+
+    renderResults();
+  }
+
+  function renderResults() {
+    allResults = currentCategory === 'all'
+      ? SEARCH_ENGINE.search(currentQuery, 'all')
+      : KNOWLEDGE_BASE.filter(d => d.category === currentCategory);
+
+    const meta = document.getElementById('results-meta');
+    const list = document.getElementById('results-list');
+    const noRes = document.getElementById('no-results');
+    const pagContainer = document.getElementById('pagination-container');
+
+    if (allResults.length === 0) {
+      meta.textContent = '';
+      list.innerHTML = '';
+      noRes.style.display = 'block';
+      pagContainer.style.display = 'none';
+      return;
+    }
+
+    noRes.style.display = 'none';
+    const totalPages = Math.ceil(allResults.length / RESULTS_PER_PAGE);
+    if (currentPage > totalPages) currentPage = totalPages;
+    const start = (currentPage - 1) * RESULTS_PER_PAGE;
+    const pageResults = allResults.slice(start, start + RESULTS_PER_PAGE);
+
+    meta.textContent = `About ${allResults.length} results for "${currentQuery}"`;
+    list.innerHTML = pageResults.map(doc => buildResultCard(doc)).join('');
+
+    if (totalPages > 1) {
+      pagContainer.style.display = 'block';
+      renderPagination(totalPages);
+    } else {
+      pagContainer.style.display = 'none';
+    }
+  }
+
+  function renderPagination(totalPages) {
+    const pag = document.getElementById('pagination');
+    let html = '';
+    html += `<button class="page-btn nav-arrow" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>&lt;</button>`;
+    const maxVisible = 10;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+    if (endPage - startPage < maxVisible - 1) startPage = Math.max(1, endPage - maxVisible + 1);
+    for (let i = startPage; i <= endPage; i++) {
+      html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+    }
+    html += `<button class="page-btn nav-arrow" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>&gt;</button>`;
+    pag.innerHTML = html;
+  }
+
+  function goToPage(page) {
+    const totalPages = Math.ceil(allResults.length / RESULTS_PER_PAGE);
+    if (page < 1 || page > totalPages) return;
+    currentPage = page;
+    renderResults();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function buildResultCard(doc) {
+    const label = CATEGORY_LABELS[doc.category] || { text: doc.category, css: 'label-personal' };
+    const url = SEARCH_ENGINE.getResultURL(doc);
+    const displayURL = SEARCH_ENGINE.getDisplayURL(doc);
+    const snippet = currentCategory !== 'all'
+      ? doc.content.slice(0, 220) + '...'
+      : SEARCH_ENGINE.getSnippet(doc, currentQuery);
+    const tags = extractTechTags(doc.content);
+    const icon = SEARCH_ENGINE.getCategoryIcon(doc.category);
+
+    return `
+    <div class="result-card">
+      <div class="result-breadcrumb">
+        <div class="result-favicon">${icon}</div>
+        <span class="result-site">pamidirohit.dev</span>
+        <span class="result-url"> › ${doc.category} › ${doc.id.replace(/-/g,' ')}</span>
+      </div>
+      <a href="${url}" target="_blank" rel="noopener">
+        <div class="result-title">${doc.title}</div>
+      </a>
+      <span class="result-label ${label.css}">${label.text}</span>
+      <p class="result-snippet">${snippet}</p>
+      ${tags.length ? `<div class="tech-tags">${tags.map(t=>`<span class="tech-tag">${t}</span>`).join('')}</div>` : ''}
+    </div>`;
+  }
+
+  function filterCategory(cat, el) {
+    currentCategory = cat;
+    currentPage = 1;
+    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    renderResults();
+  }
+
+  function doTopbarSearch() {
+    const q = document.getElementById('topbar-input').value.trim();
+    if (q) {
+      currentQuery = q;
+      currentCategory = 'all';
+      currentPage = 1;
+      document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+      document.querySelector('.tab-item[data-cat="all"]').classList.add('active');
+      history.pushState(null, '', `search.html?q=${encodeURIComponent(q)}`);
+      document.title = `${q} — PAMIDI ROHIT`;
+      renderResults();
+    }
+  }
+
+  document.getElementById('topbar-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doTopbarSearch();
+  });
+
+  init();
+</script>
+
+</body>
+</html>
