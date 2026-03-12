@@ -21,14 +21,20 @@
       --bg-input: #f0f4f9;
       --bg-hover: #e2e8f0;
       --bg-user-msg: #e8eef3;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
       --text-primary: #1f1f1f;
       --text-secondary: #5f6368;
       --text-muted: #9aa0a6;
       --border: #e0e0e0;
       --border-light: #f0f0f0;
+      --border-color: #e0e0e0;
       --accent-blue: #1a73e8;
       --accent-purple: #8b5cf6;
       --accent-cyan: #06b6d4;
+      --accent-green: #34a853;
+      --accent-red: #ea4335;
+      --accent-orange: #fbbc05;
       --sidebar-width: 268px;
     }
 
@@ -582,6 +588,134 @@
     .input-icon-btn .material-symbols-outlined { font-size: 22px; }
     .input-icon-btn:disabled { opacity: .4; cursor: not-allowed; }
 
+    /* Debug Panel Controls */
+    #debug-controls {
+      display: flex;
+      gap: 8px;
+      margin: 8px 0;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .debug-btn {
+      padding: 6px 12px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .debug-btn:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border-color: var(--accent-blue);
+    }
+    .debug-btn.active {
+      background: var(--accent-blue);
+      color: white;
+      border-color: var(--accent-blue);
+    }
+    .debug-btn .material-symbols-outlined {
+      font-size: 14px;
+    }
+    
+    /* Debug Panel */
+    #debug-panel {
+      display: none;
+      margin-top: 12px;
+      padding: 16px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      line-height: 1.4;
+      max-height: 400px;
+      overflow-y: auto;
+      color: var(--text-secondary);
+    }
+    #debug-panel h4 {
+      margin: 0 0 8px 0;
+      color: var(--text-primary);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    #debug-panel .debug-section {
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    #debug-panel .debug-section:last-child {
+      border-bottom: none;
+    }
+    #debug-panel .debug-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 2px 0;
+    }
+    #debug-panel .debug-item .label {
+      color: var(--text-secondary);
+    }
+    #debug-panel .debug-item .value {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    #debug-panel .chunk-preview {
+      background: var(--bg-primary);
+      padding: 6px;
+      border-radius: 6px;
+      margin: 4px 0;
+      font-size: 10px;
+      color: var(--text-secondary);
+      border-left: 2px solid var(--accent-blue);
+    }
+    
+    /* Eval Results */
+    #eval-results {
+      display: none;
+      margin-top: 12px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+    #eval-results .eval-header {
+      padding: 12px 16px;
+      background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+      color: white;
+      font-weight: 600;
+    }
+    #eval-results .eval-content {
+      padding: 16px;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    #eval-results .eval-metric {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    #eval-results .eval-metric:last-child {
+      border-bottom: none;
+    }
+    #eval-results .metric-label {
+      color: var(--text-secondary);
+      font-size: 12px;
+    }
+    #eval-results .metric-value {
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 12px;
+    }
+    #eval-results .metric-value.good { color: var(--accent-green); }
+    #eval-results .metric-value.warning { color: var(--accent-orange); }
+    #eval-results .metric-value.poor { color: var(--accent-red); }
+
     #send-btn {
       background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
       color: #fff;
@@ -806,6 +940,26 @@
             </button>
           </div>
         </div>
+        <div id="debug-controls">
+          <button class="debug-btn" id="toggle-debug" onclick="toggleDebugPanel()">
+            <span class="material-symbols-outlined">bug_report</span>
+            Debug
+          </button>
+          <button class="debug-btn" onclick="runEvalHarness()">
+            <span class="material-symbols-outlined">assessment</span>
+            Run Eval
+          </button>
+          <button class="debug-btn" onclick="toggleEnhancedMode()">
+            <span class="material-symbols-outlined">auto_fix_high</span>
+            Enhanced
+          </button>
+          <button class="debug-btn" onclick="showExpansionStats()">
+            <span class="material-symbols-outlined">analytics</span>
+            Stats
+          </button>
+        </div>
+        <div id="debug-panel"></div>
+        <div id="eval-results"></div>
         <div id="input-footer">
           Rohit AI &middot; Powered by RAG &middot; Answers about Pamidi Rohit &middot;
           <a href="index.html">Go to Search</a>
@@ -871,23 +1025,23 @@
 
   function getThinkingSteps(query) {
     const q = query.toLowerCase();
-    const steps = [{ icon: 'search', text: 'Searching knowledge base...' }];
-    if (/project|build|app|repo|github/.test(q)) {
-      steps.push({ icon: 'code', text: 'Analyzing project repositories...' });
-    } else if (/skill|tech|stack|language|framework/.test(q)) {
-      steps.push({ icon: 'psychology', text: 'Mapping technical skills...' });
-    } else if (/educat|college|degree|cgpa|school/.test(q)) {
-      steps.push({ icon: 'school', text: 'Retrieving education records...' });
-    } else if (/contact|email|linkedin|phone|hire/.test(q)) {
-      steps.push({ icon: 'mail', text: 'Looking up contact information...' });
-    } else if (/hackathon|bah|isro|lunar|moon|neurocore|agentic|smart.?city|agent/.test(q)) {
-      steps.push({ icon: 'rocket_launch', text: 'Analyzing competition projects...' });
-    } else if (/achieve|leetcode|award/.test(q)) {
-      steps.push({ icon: 'emoji_events', text: 'Compiling achievements...' });
-    } else {
-      steps.push({ icon: 'description', text: 'Reading relevant documents...' });
+    const isCasual = /^(hi|hello|hey|hii|yo|sup|thanks|thank you|thx|bye|take care|good ?(morning|afternoon|evening|night)|goodnight|gm|ga|ge|gn|gud (morning|mrng|evening|night|nyt|nite)|nyt|nite|who are you|help)\b/.test(q.trim());
+    if (isCasual) {
+      return [
+        { icon: 'chat', text: 'Understanding conversational intent...' },
+        { icon: 'auto_awesome', text: 'Generating response...' }
+      ];
     }
-    steps.push({ icon: 'auto_awesome', text: 'Generating response...' });
+
+    const steps = [
+      { icon: 'edit_note', text: 'Rewriting query for better recall...' },
+      { icon: 'deployed_code', text: 'Running dense retrieval (BGE-style)...' },
+      { icon: 'tune', text: 'Running sparse retrieval (BM25)...' },
+      { icon: 'hub', text: 'Fusing ranks with Reciprocal Rank Fusion...' },
+      { icon: 'filter_alt', text: 'Reranking with ColBERT-style matching...' },
+      { icon: 'library_books', text: 'Selecting top-K grounded context...' },
+      { icon: 'auto_awesome', text: 'Generating answer with sources...' }
+    ];
     return steps;
   }
 
@@ -1056,6 +1210,344 @@
     };
     recognition.start();
   }
+
+  // ─── Debug Panel Functions ─────────────────────────────────────────────────
+
+  let debugPanelOpen = false;
+  let enhancedModeEnabled = false;
+  let lastQuery = '';
+
+  function toggleDebugPanel() {
+    const panel = document.getElementById('debug-panel');
+    const btn = document.getElementById('toggle-debug');
+    
+    debugPanelOpen = !debugPanelOpen;
+    
+    if (debugPanelOpen) {
+      panel.style.display = 'block';
+      btn.classList.add('active');
+      
+      if (lastQuery) {
+        updateDebugPanel(lastQuery);
+      } else {
+        panel.innerHTML = '<h4>Debug Panel</h4><p>Send a query to see retrieval trace...</p>';
+      }
+    } else {
+      panel.style.display = 'none';
+      btn.classList.remove('active');
+    }
+  }
+
+  function updateDebugPanel(query) {
+    if (!debugPanelOpen) return;
+    
+    const panel = document.getElementById('debug-panel');
+    
+    try {
+      const trace = ragEngine.getDebugTrace(query);
+      
+      if (trace.error) {
+        panel.innerHTML = `<h4>Debug Panel</h4><p style="color: var(--accent-red);">${trace.error}</p>`;
+        return;
+      }
+      
+      let html = '<h4>Debug Panel - RAG Retrieval Trace</h4>';
+      
+      // Query Processing
+      html += '<div class="debug-section">';
+      html += '<h4>Query Processing</h4>';
+      html += `<div class="debug-item"><span class="label">Original:</span><span class="value">"${trace.query.original}"</span></div>`;
+      html += `<div class="debug-item"><span class="label">Normalized:</span><span class="value">"${trace.query.normalized}"</span></div>`;
+      html += `<div class="debug-item"><span class="label">Rewrites:</span><span class="value">${trace.query.rewrites.length}</span></div>`;
+      trace.query.rewrites.forEach((rewrite, i) => {
+        html += `<div class="chunk-preview">→ "${rewrite.text}" (weight: ${rewrite.weight})</div>`;
+      });
+      html += '</div>';
+      
+      // Sparse Retrieval
+      html += '<div class="debug-section">';
+      html += '<h4>BM25 Sparse Retrieval</h4>';
+      trace.retrieval.sparse.results.slice(0, 3).forEach((result, i) => {
+        html += `<div class="debug-item">`;
+        html += `<span class="label">${i + 1}. ${result.title}</span>`;
+        html += `<span class="value">${result.score}</span>`;
+        html += `</div>`;
+        html += `<div class="chunk-preview">${result.preview}</div>`;
+      });
+      html += '</div>';
+      
+      // Dense Retrieval
+      html += '<div class="debug-section">';
+      html += '<h4>BGE Dense Retrieval</h4>';
+      trace.retrieval.dense.results.slice(0, 3).forEach((result, i) => {
+        html += `<div class="debug-item">`;
+        html += `<span class="label">${i + 1}. ${result.title}</span>`;
+        html += `<span class="value">${result.score}</span>`;
+        html += `</div>`;
+        html += `<div class="chunk-preview">${result.preview}</div>`;
+      });
+      html += '</div>';
+      
+      // Final Results
+      html += '<div class="debug-section">';
+      html += '<h4>Final Results</h4>';
+      trace.finalResults.forEach((result, i) => {
+        html += `<div class="debug-item">`;
+        html += `<span class="label">${i + 1}. ${result.title} (${result.category})</span>`;
+        html += `<span class="value">${result.score}</span>`;
+        html += `</div>`;
+        html += `<div class="chunk-preview">${result.preview}</div>`;
+      });
+      html += '</div>';
+      
+      // Performance
+      html += '<div class="debug-section">';
+      html += '<h4>Performance Metrics</h4>';
+      html += `<div class="debug-item"><span class="label">Total Chunks:</span><span class="value">${trace.performance.totalChunks}</span></div>`;
+      html += `<div class="debug-item"><span class="label">Avg Quality:</span><span class="value">${trace.performance.averageChunkQuality}</span></div>`;
+      const types = Object.entries(trace.performance.chunksByType).map(([type, count]) => `${type}: ${count}`).join(', ');
+      html += `<div class="debug-item"><span class="label">Chunk Types:</span><span class="value">${types}</span></div>`;
+      html += '</div>';
+      
+      panel.innerHTML = html;
+      
+    } catch (error) {
+      panel.innerHTML = `<h4>Debug Panel</h4><p style="color: var(--accent-red);">Error: ${error.message}</p>`;
+    }
+  }
+
+  function runEvalHarness() {
+    const evalResults = document.getElementById('eval-results');
+    
+    // Show loading
+    evalResults.style.display = 'block';
+    evalResults.innerHTML = `
+      <div class="eval-header">
+        <span class="material-symbols-outlined" style="margin-right: 8px;">assessment</span>
+        Running Evaluation Harness...
+      </div>
+      <div class="eval-content">
+        <p>Testing RAG engine performance across 25+ queries...</p>
+        <div class="typing-indicator">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+    `;
+    
+    // Run evaluation asynchronously
+    setTimeout(() => {
+      try {
+        const harness = ragEngine.createEvalHarness();
+        const evaluation = harness.runEvaluation();
+        const metrics = harness.computeMetrics(evaluation);
+        const report = harness.generateReport(metrics);
+        
+        displayEvalResults(metrics, evaluation);
+        
+      } catch (error) {
+        evalResults.innerHTML = `
+          <div class="eval-header">Evaluation Failed</div>
+          <div class="eval-content">
+            <p style="color: var(--accent-red);">Error: ${error.message}</p>
+          </div>
+        `;
+      }
+    }, 1500);
+  }
+
+  function displayEvalResults(metrics, evaluation) {
+    const evalResults = document.getElementById('eval-results');
+    const overall = metrics.overall;
+    
+    // Helper to get metric class
+    const getMetricClass = (value, good = 0.8, warning = 0.6) => {
+      if (value >= good) return 'good';
+      if (value >= warning) return 'warning';
+      return 'poor';
+    };
+    
+    let html = `
+      <div class="eval-header">
+        <span class="material-symbols-outlined" style="margin-right: 8px;">assessment</span>
+        Evaluation Results (${overall.validQueries} queries)
+      </div>
+      <div class="eval-content">
+    `;
+    
+    // Overall metrics
+    html += '<h4 style="margin-bottom: 12px;">Overall Performance</h4>';
+    html += `<div class="eval-metric">
+      <span class="metric-label">Pass Rate</span>
+      <span class="metric-value ${getMetricClass(overall.passRate)}">${(overall.passRate * 100).toFixed(1)}%</span>
+    </div>`;
+    html += `<div class="eval-metric">
+      <span class="metric-label">Average Recall@3</span>
+      <span class="metric-value ${getMetricClass(overall.avgRecall)}">${overall.avgRecall}</span>
+    </div>`;
+    html += `<div class="eval-metric">
+      <span class="metric-label">Average Precision@3</span>
+      <span class="metric-value ${getMetricClass(overall.avgPrecision)}">${overall.avgPrecision}</span>
+    </div>`;
+    html += `<div class="eval-metric">
+      <span class="metric-label">Mean Reciprocal Rank</span>
+      <span class="metric-value ${getMetricClass(overall.avgMRR)}">${overall.avgMRR}</span>
+    </div>`;
+    html += `<div class="eval-metric">
+      <span class="metric-label">Answer Quality</span>
+      <span class="metric-value ${getMetricClass(overall.avgAnswerQuality)}">${overall.avgAnswerQuality}</span>
+    </div>`;
+    html += `<div class="eval-metric">
+      <span class="metric-label">Avg Query Time</span>
+      <span class="metric-value">${overall.avgQueryTime}ms</span>
+    </div>`;
+    
+    // By category
+    html += '<h4 style="margin: 20px 0 12px 0;">Performance by Category</h4>';
+    Object.entries(metrics.byCategory).forEach(([category, stats]) => {
+      html += `<div class="eval-metric">
+        <span class="metric-label">${category} (${stats.count})</span>
+        <span class="metric-value ${getMetricClass(stats.passRate)}">
+          ${(stats.passRate * 100).toFixed(1)}% pass, R=${stats.recall.toFixed(2)}
+        </span>
+      </div>`;
+    });
+    
+    // By difficulty
+    html += '<h4 style="margin: 20px 0 12px 0;">Performance by Difficulty</h4>';
+    Object.entries(metrics.byDifficulty).forEach(([difficulty, stats]) => {
+      html += `<div class="eval-metric">
+        <span class="metric-label">${difficulty} (${stats.count})</span>
+        <span class="metric-value ${getMetricClass(stats.passRate)}">
+          ${(stats.passRate * 100).toFixed(1)}% pass, Avg=${stats.avgScore.toFixed(2)}
+        </span>
+      </div>`;
+    });
+    
+    // Failed queries
+    if (metrics.failedQueries.length > 0) {
+      html += '<h4 style="margin: 20px 0 12px 0;">Failed Queries</h4>';
+      metrics.failedQueries.slice(0, 5).forEach(failure => {
+        html += `<div class="eval-metric" style="flex-direction: column; align-items: flex-start;">
+          <span class="metric-label">"${failure.query}"</span>
+          <span style="color: var(--text-secondary); font-size: 10px;">${failure.issue}</span>
+        </div>`;
+      });
+    }
+    
+    html += '</div>';
+    evalResults.innerHTML = html;
+  }
+
+  function toggleEnhancedMode() {
+    enhancedModeEnabled = !enhancedModeEnabled;
+    const btn = document.querySelector('button[onclick="toggleEnhancedMode()"]');
+    
+    if (enhancedModeEnabled) {
+      btn.classList.add('active');
+      btn.title = 'Enhanced Mode: ON (using metadata-aware chunk expansion)';
+    } else {
+      btn.classList.remove('active');
+      btn.title = 'Enhanced Mode: OFF';
+    }
+  }
+
+  function showExpansionStats() {
+    try {
+      const stats = ragEngine.getExpansionAnalytics();
+      
+      let html = '<h4>Chunk Expansion Analytics</h4>';
+      
+      // Overall stats
+      html += '<div class="debug-section">';
+      html += '<h4>Overall Statistics</h4>';
+      html += `<div class="debug-item"><span class="label">Total Documents:</span><span class="value">${stats.overallStats.totalDocuments}</span></div>`;
+      html += `<div class="debug-item"><span class="label">Avg Chunks/Doc:</span><span class="value">${stats.overallStats.avgChunksPerDoc.toFixed(1)}</span></div>`;
+      html += `<div class="debug-item"><span class="label">Avg Quality/Doc:</span><span class="value">${stats.overallStats.avgQualityPerDoc.toFixed(3)}</span></div>`;
+      html += '</div>';
+      
+      // Top expansion documents
+      html += '<div class="debug-section">';
+      html += '<h4>Best Expansion Candidates</h4>';
+      stats.overallStats.topExpansionDocs.forEach((doc, i) => {
+        html += `<div class="debug-item">`;
+        html += `<span class="label">${i + 1}. ${doc.title}</span>`;
+        html += `<span class="value">${doc.score}</span>`;
+        html += `</div>`;
+      });
+      html += '</div>';
+      
+      // Document breakdown
+      html += '<div class="debug-section">';
+      html += '<h4>Document Breakdown</h4>';
+      stats.documentStats.slice(0, 5).forEach(doc => {
+        html += `<div class="debug-item">`;
+        html += `<span class="label">${doc.title} (${doc.category})</span>`;
+        html += `<span class="value">${doc.totalChunks} chunks</span>`;
+        html += `</div>`;
+        html += `<div class="chunk-preview">Quality: ${doc.avgQuality.toFixed(3)} | Expansion Score: ${doc.expansionPotential.expansionScore}</div>`;
+      });
+      html += '</div>';
+      
+      const panel = document.getElementById('debug-panel');
+      panel.style.display = 'block';
+      panel.innerHTML = html;
+      document.getElementById('toggle-debug').classList.add('active');
+      debugPanelOpen = true;
+      
+    } catch (error) {
+      alert('Error getting expansion stats: ' + error.message);
+    }
+  }
+
+  // Modified sendMessage to support enhanced mode and debug updates
+  const originalSendMessage = sendMessage;
+  sendMessage = function() {
+    const query = chatInput.value.trim();
+    if (!query) return;
+    
+    lastQuery = query;
+    
+    chatInput.value = '';
+    chatInput.style.height = 'auto';
+    sendBtn.disabled = true;
+
+    showChatMode();
+    appendUserMessage(query);
+    conversationHistory.push({ role: 'user', text: query });
+
+    // Determine thinking steps based on query intent
+    const steps = getThinkingSteps(query);
+    const thinkingId = appendThinking(steps);
+
+    // Animate steps sequentially, then show response
+    animateThinkingSteps(thinkingId, steps, () => {
+      removeThinking(thinkingId);
+      
+      let response;
+      if (enhancedModeEnabled) {
+        // Use enhanced response with metadata-aware chunk expansion
+        response = ragEngine.generateEnhancedResponse(query, PROFILE, {
+          neighborhoodSize: 1,
+          includeDocumentContext: true,
+          prioritizeQuality: true,
+          maxExpansionRatio: 2.0
+        });
+      } else {
+        response = ragEngine.generateResponse(query, PROFILE);
+      }
+      
+      const formatted = formatMarkdown(response);
+      appendAIMessage(formatted);
+      conversationHistory.push({ role: 'ai', text: response });
+      
+      // Update debug panel if open
+      if (debugPanelOpen) {
+        setTimeout(() => updateDebugPanel(query), 100);
+      }
+    });
+  };
 </script>
 
 </body>
