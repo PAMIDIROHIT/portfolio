@@ -11,6 +11,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 
+  <!-- Translation Engine -->
+  <script src="js/translation-engine.js" defer></script>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -794,7 +797,7 @@
 
     <button id="new-chat-btn" onclick="newChat()">
       <span class="material-symbols-outlined">edit_square</span>
-      New chat
+      <span data-translate="chat.new.chat">New chat</span>
     </button>
 
     <div class="sb-section-label">Quick Ask</div>
@@ -898,8 +901,8 @@
           </svg>
         </div>
 
-        <h1 id="welcome-greeting">Hello, I'm Rohit AI</h1>
-        <p id="welcome-sub">Ask me anything about Pamidi Rohit</p>
+        <h1 id="welcome-greeting" data-translate="chat.welcome.greeting">Hello, I'm Rohit AI</h1>
+        <p id="welcome-sub" data-translate="chat.welcome.subtitle">Ask me anything about Pamidi Rohit</p>
 
         <div id="suggestion-grid">
           <div class="suggestion-card" onclick="quickAsk('Who is Pamidi Rohit? Give me a full introduction.')">

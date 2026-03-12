@@ -12,6 +12,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet" />
 
+  <!-- Translation Engine -->
+  <script src="js/translation-engine.js" defer></script>
+
   <style>
     /* ─── Reset ──────────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -497,27 +500,27 @@
   <nav id="tab-nav">
     <div class="tab-item active" data-cat="all" onclick="filterCategory('all', this)">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-      All
+      <span data-translate="category.all">All</span>
     </div>
     <div class="tab-item" data-cat="project" onclick="filterCategory('project', this)">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
-      Projects
+      <span data-translate="category.projects">Projects</span>
     </div>
     <div class="tab-item" data-cat="skills" onclick="filterCategory('skills', this)">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-      Skills
+      <span data-translate="category.skills">Skills</span>
     </div>
     <div class="tab-item" data-cat="education" onclick="filterCategory('education', this)">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L1 9l4 2.18V15c0 3 4 6 7 6s7-3 7-6v-3.82L21 9 12 3zm6 10.82V15c0 1.73-2.73 4-6 4s-6-2.27-6-4v-1.18L12 16l6-2.18zM3.53 9 12 5.04 20.47 9 12 12.96 3.53 9z"/></svg>
-      Education
+      <span data-translate="category.education">Education</span>
     </div>
     <div class="tab-item" data-cat="achievement" onclick="filterCategory('achievement', this)">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-      Achievements
+      <span data-translate="category.achievements">Achievements</span>
     </div>
     <div class="tab-item" data-cat="contact" onclick="filterCategory('contact', this)">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
-      Contact
+      <span data-translate="category.contact">Contact</span>
     </div>
   </nav>
 </div>
@@ -530,7 +533,7 @@
     <p id="results-meta"></p>
     <div id="results-list"></div>
     <div id="no-results">
-      <h2>No results found</h2>
+      <h2 data-translate="search.no.results">No results found</h2>
       <p>Try searching for: projects, skills, education, contact, achievements</p>
     </div>
     <div id="pagination-container" style="display:none;">
@@ -552,11 +555,11 @@
     </div>
 
     <div class="kp-section">
-      <div class="kp-label">Education</div>
+      <div class="kp-label" data-translate="panel.education">Education</div>
       <div class="kp-value">IIIT Sri City, 2023–2027</div>
     </div>
     <div class="kp-section">
-      <div class="kp-label">Specialization</div>
+      <div class="kp-label" data-translate="panel.specialization">Specialization</div>
       <div class="kp-value">AI & Data Science</div>
     </div>
     <div class="kp-section">
@@ -564,7 +567,7 @@
       <div class="kp-value"><a href="https://leetcode.com/u/rohithtnsp/" target="_blank">600+ Problems Solved</a></div>
     </div>
     <div class="kp-section">
-      <div class="kp-label">Top Skills</div>
+      <div class="kp-label" data-translate="panel.top.skills">Top Skills</div>
       <div>
         <div class="skill-bar-wrap">
           <div class="skill-bar-label"><span>Full-Stack Dev</span><span>95%</span></div>

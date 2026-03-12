@@ -20,6 +20,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 
+  <!-- Translation Engine -->
+  <script src="js/translation-engine.js" defer></script>
+
   <style>
     /* ─── Reset & Base ─────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -531,28 +534,28 @@
 <!-- ═══════════════════════════  HEADER  ════════════════════════════════ -->
 <header id="header">
   <div id="header-left">
-    <a href="search.html?q=about+rohit" class="hdr-link">About</a>
-    <a href="search.html?q=contact" class="hdr-link">Contact</a>
-    <a href="search.html?q=projects" class="hdr-link">Projects</a>
+    <a href="search.html?q=about+rohit" class="hdr-link" data-translate="nav.about">About</a>
+    <a href="search.html?q=contact" class="hdr-link" data-translate="nav.contact">Contact</a>
+    <a href="search.html?q=projects" class="hdr-link" data-translate="nav.projects">Projects</a>
   </div>
 
   <div id="header-right">
     <!-- Home -->
-    <a href="/" class="hdr-icon-btn" title="Home">
+    <a href="/" class="hdr-icon-btn" title="Home" data-translate-title="nav.home">
       <svg viewBox="0 0 24 24">
         <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
       </svg>
     </a>
 
     <!-- Camera/Images -->
-    <a href="search.html?q=projects+images" class="hdr-icon-btn" title="Images">
+    <a href="search.html?q=projects+images" class="hdr-icon-btn" title="Images" data-translate-title="nav.images">
       <svg viewBox="0 0 24 24">
         <path d="M12 15.5c1.93 0 3.5-1.57 3.5-3.5s-1.57-3.5-3.5-3.5-3.5 1.57-3.5 3.5 1.57 3.5 3.5 3.5zM17.5 9c.28 0 .5-.22.5-.5s-.22-.5-.5-.5-.5.22-.5.5.22.5.5.5zM20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12z"/>
       </svg>
     </a>
 
     <!-- Gmail/Email -->
-    <a href="mailto:rohithtnsp@gmail.com" class="hdr-icon-btn" title="Gmail">
+    <a href="mailto:rohithtnsp@gmail.com" class="hdr-icon-btn" title="Gmail" data-translate-title="nav.gmail">
       <svg viewBox="0 0 24 24">
         <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
       </svg>
@@ -594,8 +597,9 @@
         id="search-input"
         autocomplete="off"
         spellcheck="false"
-        placeholder=""
+        placeholder="Search anything..."
         aria-label="Search"
+        data-translate="search.placeholder"
       />
 
       <!-- Right: mic + clear -->
@@ -628,17 +632,17 @@
 
   <!-- Buttons -->
   <div id="buttons-row">
-    <button class="search-btn" onclick="doSearch()">Pamidi Search</button>
-    <button class="search-btn" onclick="luckySearch()">I'm Feeling Lucky</button>
+    <button class="search-btn" onclick="doSearch()" data-translate="search.google">Pamidi Search</button>
+    <button class="search-btn" onclick="luckySearch()" data-translate="search.lucky">I'm Feeling Lucky</button>
   </div>
 
   <!-- Quick search chips -->
   <div id="quick-searches">
-    <span class="qs-chip" onclick="searchTerm('projects')">🚀 Projects</span>
-    <span class="qs-chip" onclick="searchTerm('skills')">💡 Skills</span>
-    <span class="qs-chip" onclick="searchTerm('education')">🎓 Education</span>
-    <span class="qs-chip" onclick="searchTerm('achievements')">🏆 Achievements</span>
-    <span class="qs-chip" onclick="searchTerm('contact')">📬 Contact</span>
+    <span class="qs-chip" onclick="searchTerm('projects')" data-translate="category.projects">🚀 Projects</span>
+    <span class="qs-chip" onclick="searchTerm('skills')" data-translate="category.skills">💡 Skills</span>
+    <span class="qs-chip" onclick="searchTerm('education')" data-translate="category.education">🎓 Education</span>
+    <span class="qs-chip" onclick="searchTerm('achievements')" data-translate="category.achievements">🏆 Achievements</span>
+    <span class="qs-chip" onclick="searchTerm('contact')" data-translate="category.contact">📬 Contact</span>
     <span class="qs-chip" onclick="searchTerm('machine learning')">🤖 ML Projects</span>
   </div>
 
